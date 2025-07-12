@@ -10,6 +10,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TickSleep extends JavaPlugin implements Listener {
     private final ServerTickManager serverTickManager = Bukkit.getServerTickManager();
+
+    // Is the server sprinting because of us?
+    // TODO: If another sprint stops ours and is longer, ensure this is `false`
+    // TODO: If another sprint stops ours and is shorter, ensure we resume where we left off
     private boolean sprinting = false;
 
     @Override
@@ -25,7 +29,7 @@ public class TickSleep extends JavaPlugin implements Listener {
             event.setCancelled(true);
 
             // Initiate a sprint for the same amount of ticks as would've been skipped
-            // TODO: Get if a sprint was already initiated and if it was for longer than our requested sprint, and do nothing if it is
+            // TODO: Skip this if an already-initiated sprint is longer than our requested sprint
             serverTickManager.requestGameToSprint((int) event.getSkipAmount());
             sprinting = true;
         }
@@ -33,7 +37,7 @@ public class TickSleep extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
-        // If a sprint is already initiated because of us
+        // If the server is sprinting because of us
         if (sprinting) {
             // Stop the sprint
             serverTickManager.stopSprinting();
