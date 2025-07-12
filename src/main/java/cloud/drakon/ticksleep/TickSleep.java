@@ -32,8 +32,11 @@ public class TickSleep extends JavaPlugin implements Listener {
 
             // Initiate a sprint for the same amount of ticks as would've been skipped
             // TODO: Skip this if an already-initiated sprint is longer than our requested sprint
-            serverTickManager.requestGameToSprint((int) event.getSkipAmount());
+            var skipAmount = (int) event.getSkipAmount();
+            serverTickManager.requestGameToSprint(skipAmount);
             sprinting = true;
+
+            getLogger().info("Sprinting for " + skipAmount + " ticks");
         }
     }
 
@@ -49,10 +52,14 @@ public class TickSleep extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
         stopSprinting();
+
+        getLogger().info("Stopping sprint due to player leaving bed");
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         stopSprinting();
+
+        getLogger().info("Stopping sprint due to player joining server");
     }
 }
