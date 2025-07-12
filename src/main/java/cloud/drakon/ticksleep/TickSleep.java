@@ -13,7 +13,7 @@ public class TickSleep extends JavaPlugin implements Listener {
     private final ServerTickManager serverTickManager = Bukkit.getServerTickManager();
 
     // Is the server sprinting because of us?
-    // TODO: If another sprint stops ours and is longer, ensure this is `false`
+    // TODO: If another sprint stops ours, set this to `false`
     private boolean sprinting = false;
 
     @Override
@@ -28,6 +28,8 @@ public class TickSleep extends JavaPlugin implements Listener {
             // Cancel the time skip
             event.setCancelled(true);
 
+            // TODO: Record the skip amount as a time and save it as a class member
+
             // Initiate a sprint for the same amount of ticks as would've been skipped
             // TODO: Skip this if an already-initiated sprint is longer than our requested sprint
             serverTickManager.requestGameToSprint((int) event.getSkipAmount());
@@ -35,7 +37,6 @@ public class TickSleep extends JavaPlugin implements Listener {
         }
     }
 
-    // TODO: If another sprint stops ours and is shorter, ensure we resume where we left off
     private void stopSprinting() {
         // If the server is sprinting because of us
         if (sprinting) {
