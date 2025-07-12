@@ -5,6 +5,7 @@ import org.bukkit.ServerTickManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.TimeSkipEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,7 +14,6 @@ public class TickSleep extends JavaPlugin implements Listener {
 
     // Is the server sprinting because of us?
     // TODO: If another sprint stops ours and is longer, ensure this is `false`
-    // TODO: If another sprint stops ours and is shorter, ensure we resume where we left off
     private boolean sprinting = false;
 
     @Override
@@ -35,13 +35,23 @@ public class TickSleep extends JavaPlugin implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
+    // TODO: If another sprint stops ours and is shorter, ensure we resume where we left off
+    private void stopSprinting() {
         // If the server is sprinting because of us
         if (sprinting) {
             // Stop the sprint
             serverTickManager.stopSprinting();
             sprinting = false;
         }
+    }
+
+    @EventHandler
+    public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
+        stopSprinting();
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        stopSprinting();
     }
 }
