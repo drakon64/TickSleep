@@ -1,0 +1,7 @@
+name: TickSleep
+version: 0.0.1
+main: cloud.drakon.ticksleep.TickSleep
+description: An example plugin
+author: drakon64
+website: https://github.com/drakon64/TickSleep
+api-version: '1.21'
