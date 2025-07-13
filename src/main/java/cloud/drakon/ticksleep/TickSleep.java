@@ -2,8 +2,11 @@ package cloud.drakon.ticksleep;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ServerTickManager;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.TimeSkipEvent;
@@ -65,5 +68,17 @@ public class TickSleep extends JavaPlugin implements Listener {
         stopSprinting();
 
         getLogger().info("Stopping sprint due to player joining server");
+    }
+
+    // Prevent players starving to death while sleeping
+    @EventHandler
+    public void onSleepingPlayerDamageByStarvation(EntityDamageEvent event) {
+        if (event.getEntityType() == EntityType.PLAYER && event.getCause() == EntityDamageEvent.DamageCause.STARVATION) {
+            var player = (Player) event.getEntity();
+
+            if (player.isSleeping()) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
