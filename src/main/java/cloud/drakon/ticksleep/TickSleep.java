@@ -30,7 +30,7 @@ public class TickSleep extends JavaPlugin implements Listener {
             // Cancel the time skip
             event.setCancelled(true);
 
-            // TODO: Record the skip amount as a time and save it as a class member
+            // TODO: Record the skip amount as a time and save it as a class member so we can resume our sprint if it's stopped
 
             // If the server isn't already sprinting because of us
             if (!sprinting) {
