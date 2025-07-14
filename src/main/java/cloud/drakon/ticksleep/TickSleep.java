@@ -73,7 +73,7 @@ public class TickSleep extends JavaPlugin implements Listener {
     // Prevent players starving to death while sleeping
     @EventHandler
     public void onSleepingPlayerDamageByStarvation(EntityDamageEvent event) {
-        if (event.getEntityType() == EntityType.PLAYER && event.getCause() == EntityDamageEvent.DamageCause.STARVATION) {
+        if (sprinting && event.getEntityType() == EntityType.PLAYER && event.getCause() == EntityDamageEvent.DamageCause.STARVATION) {
             var player = (Player) event.getEntity();
 
             if (player.isSleeping()) {
