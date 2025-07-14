@@ -16,7 +16,6 @@ public class TickSleep extends JavaPlugin implements Listener {
     private final ServerTickManager serverTickManager = Bukkit.getServerTickManager();
 
     // Is the server sprinting because of us?
-    // TODO: If another sprint stops ours, set this to `false`
     private boolean sprinting = false;
 
     @Override
