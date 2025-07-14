@@ -46,27 +46,25 @@ public class TickSleep extends JavaPlugin implements Listener {
         }
     }
 
-    private void stopSprinting() {
+    private void stopSprinting(String reason) {
         // If the server is sprinting because of us
         if (sprinting) {
             // Stop the sprint
             serverTickManager.stopSprinting();
             sprinting = false;
+
+            getLogger().info("Stopping sprint due to " + reason);
         }
     }
 
     @EventHandler
     public void onPlayerBedLeave(PlayerBedLeaveEvent event) {
-        stopSprinting();
-
-        getLogger().info("Stopping sprint due to player leaving bed");
+        stopSprinting("player leaving bed");
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        stopSprinting();
-
-        getLogger().info("Stopping sprint due to player joining server");
+        stopSprinting("player joining server");
     }
 
     // Prevent players starving to death while sleeping
